@@ -1,8 +1,7 @@
-import java.util.*;
+package Tree2;
 
-import BinarySearchTreeLab.Node;
-
-import java.io.*;
+import java.io.File;
+import java.util.Scanner;
 
 // This is a starter file for QuestionsGame.
 //
@@ -10,100 +9,80 @@ import java.io.*;
 // header comment.
 
 public class QuestionsGame {
-   //global variables
-	private QuestionNode root;
-	
-	String curr;
-	
-	public QuestionsGame() {
-		
-	}
-	
-	private void preOrder(QuestionNode n) { 
-		if(n != null) {
-			
-			preOrder(n.left);
-			preOrder(n.right);
-		}
-		return;
-	}
-	
-	public void read(String filename) throws Exception{
-		Scanner file = new Scanner(new File(filename));
-		
-		//first 2 lines are always root node
-		file.nextLine().trim();
-		root.data = file.nextLine().trim();
-		
-		//checks for question/answer
-		
-		QuestionNode temp = root;
-		while(temp.left != null)
-		while(file.hasNext()) {
-			String status = file.nextLine().trim();
-			String words = file.nextLine().trim();
-			add(status + " " + words);
-			
-		}
-		
-		file.close();
-	}
-	
-	private void add(String o)
-	{
-		root = add( o, root );		
-	}
-	private QuestionNode add( String o, QuestionNode n )
-	{
-		if(n == null) {
-			n = new QuestionNode(o, null, null);
-		}
-		if(n.left != null && n.left.data.substring(0,2).equals("A:")) {
-			n.right = add(o, n.right);
-		}
-		else {
-			n.left = add(o, n.left);
-		}
-		
-		return n;
-	}
-	
-	
-	public boolean yesTo(String prompt) {
-		Scanner input = new Scanner(System.in);
-		System.out.println("y/n ? ");
-		if(input.next().equals("y")) return true;
-		else return false;
-		
-	}
-	
-	public void play() {
-		return;
-	}
-	public static void main(String[] args) throws Exception{
-		new QuestionsGame().read("spec-questions.txt");
-	}
+    // Your code here
+	QuestionNode root;
 
-//private node class
-	private static class QuestionNode {
-			String data;
-			QuestionNode left;
-			QuestionNode right;
-			
-			public QuestionNode( String s, QuestionNode l, QuestionNode r)
-			{
-			      data = s;
-			      left = l;
-			      right = r;
-			      
-			}
-			
-			public String toString()
-			{
-				return "" + data + " " + left + " " + right;
-				
-			}
-		}
-
-
+   
+    
+    
+    public QuestionsGame() {
+    	root = null;
+    }
+    
+    public void read(String filename) throws Exception{
+    	Scanner scan = new Scanner(new File(filename));
+    	if (scan.hasNext()) {
+    		String status = scan.nextLine().trim();
+    		String txt = scan.nextLine().trim();
+    		root  = new QuestionNode(null, null, txt, "Q");	
+    	}
+    	while(scan.hasNext()) {
+    		String status = scan.nextLine().trim();
+    		String txt = scan.nextLine().trim();
+    		read(root, txt, status);
+    	}
+    	
+    	
+    	
+    }
+    
+    private QuestionNode read(QuestionNode n, String dat, String stat) {
+    	if (n == null) {
+    		n = new QuestionNode(null, null, dat, stat);
+    	}
+    	else if (n.left != null && n.left.type.equals("A")) {
+    		n.right = read(n.right,dat, stat);
+    	}
+    	else {
+    		n.left = read(n.left, dat, stat);
+    	}
+    	return n;
+    }
+    
+    private void preOrder(QuestionNode n) {
+    	if (n != null) {
+    		System.out.println(n.data + " ");
+    		preOrder(n.left);
+    		preOrder(n.right);
+    	}
+    }
+    
+    public void preOrder() {
+    	preOrder(root);
+    }
+    
+    public void write(String filename) {
+    	
+    }
+    
+    public void askQuestions() {
+    	
+    }
+    
+    
+    private static class QuestionNode {
+        // Your code here
+    	QuestionNode left;
+    	QuestionNode right;
+    	String type;
+    	String data;
+    	
+    	public QuestionNode(QuestionNode y, QuestionNode n, String txt, String t) {
+    		left = y;
+    		right = n;
+    		data = txt;
+    		type = t;
+    	}
+    }
+    
 }
