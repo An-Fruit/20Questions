@@ -1,10 +1,8 @@
 import java.io.*;
 import java.util.Scanner;
 
-// This is a starter file for QuestionsGame.
+// Andre Zhang & Thanh Duong
 //
-// You should delete this comment and replace it with your class
-// header comment.
 
 public class QuestionsGame {
     // Your code here
@@ -20,13 +18,12 @@ public class QuestionsGame {
     
     public void read(String filename) throws Exception{
     	Scanner scan = new Scanner(new File(filename));
-    	
     	root = read(scan);
     } 
     
     private QuestionNode read(Scanner scan) {
-    	String type = scan.nextLine();
-        String data = scan.nextLine();
+    	String type = scan.nextLine().trim();
+        String data = scan.nextLine().trim();
         QuestionNode cur = new QuestionNode(data, type);  
     
         if (type.contains("Q:")) {
@@ -78,16 +75,18 @@ public class QuestionsGame {
     	if(n.left == null &&  n.right == null) {
     		System.out.println("would your object happen to be " + n.data + " (y/n)?");
     		//if the tree wins
-    		if(file.next().trim().toLowerCase().equals("y")) {
+    		String s = file.next().trim().toLowerCase();
+    		if(s.equals("y")) {
     			System.out.println("Great, I got it right!");
     			return;
     		}
     		//if the tree doesn't guess what it is
-    		else if (file.next().toLowerCase().equals("n")){
+    		else if (s.equals("n")){
     			System.out.println("What is the name of your object?"); 
     			QuestionNode ans = new QuestionNode(file.next().trim(), "A:");
     			System.out.println("Please give me a yes/no question that distinguishes between your object and mine -->");
-    			String q = file.next();
+    			file.nextLine();
+    			String q = file.nextLine().trim();
     			System.out.println("And what is the answer for your object (y/n)?");
     			String a = file.next().trim();
     			if(a.equals("y")) {
@@ -112,12 +111,13 @@ public class QuestionsGame {
     	else {
     		System.out.println(n.data + " (y/n)?");
     		//go left if they say yes
-    		if(file.next().trim().toLowerCase().equals("y")) {
+    		String s = file.next().trim().toLowerCase();
+    		if(s.equals("y")) {
     			askQuestions(n.left);
     			
     		}
     		//go right if they say no
-    		else if (file.next().trim().toLowerCase().equals("n")){
+    		else if (s.equals("n")){
     			askQuestions(n.right);
     		
     		}
